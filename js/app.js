@@ -121,6 +121,14 @@
       root.innerHTML = person.days[day].map(([id, name, sets, reps], index) => {
         const row = log[id] || {};
         const setCount = Math.min(3, parseInt(sets, 10) || 1);
+        const ex = data.exercises[id];
+        const altsHtml = (ex?.alternatives || [])
+          .map(altId => {
+            const alt = data.exercises[altId];
+            return alt ? `<a class="exercise-alt" href="technique.html#${altId}">${alt.name}</a>` : "";
+          })
+          .filter(Boolean)
+          .join(" · ");
         const fields = id === "cardio"
           ? `<input aria-label="Результат" data-field="result" value="${row.result || ""}" placeholder="мин / уровень">`
           : Array.from({ length: setCount }, (_, i) =>
@@ -132,6 +140,7 @@
           <div class="exercise-copy">
             <div class="exercise-name">${index + 1}. ${name}</div>
             <a class="exercise-technique" href="technique.html#${id}">Техника и GIF →</a>
+            ${altsHtml ? `<div class="exercise-alts">Замены: ${altsHtml}</div>` : ""}
           </div>
           <div class="exercise-meta">${sets} × ${reps}</div>
           <div class="sets-log">${fields}</div>
@@ -262,31 +271,113 @@
     draw();
   }
 
-  function initTechniques() {
-    const root = $("#technique-list");
-    if (!root) return;
-    const entries = Object.entries(data.exercises);
-    root.innerHTML = entries.map(([id, ex], i) => `<article class="card tech-card" id="${id}" data-search="${(ex.name + " " + ex.target).toLowerCase()}">
+  function renderTechCard(id, ex, i) {
+    const groupTitle = data.muscleGroups?.find(g => g.id === ex.group)?.title || "";
+    const altLabel = ex.altOf && data.exercises[ex.altOf]
+      ? `<span class="tech-alt-badge">Замена · ${data.exercises[ex.altOf].name}</span>`
+      : "";
+    return `<article class="card tech-card" id="${id}" data-search="${(ex.name + " " + ex.target + " " + groupTitle).toLowerCase()}">
       ${ex.gif ? exerciseMedia(id, "tech-visual media") : `<div class="tech-visual">${exerciseSvg(i)}</div>`}
       <div class="tech-body">
         <span class="eyebrow">${ex.target}</span>
+        ${altLabel}
         <h2>${ex.name}</h2>
         <p>${ex.setup}</p>
-        <details open>
+        <details>
           <summary>Пошаговая техника</summary>
           <ol>${ex.steps.map(step => `<li>${step}</li>`).join("")}</ol>
           <p><strong>Частые ошибки:</strong> ${ex.errors}</p>
           <p class="stop"><strong>Остановиться:</strong> ${ex.stop}</p>
         </details>
       </div>
-    </article>`).join("");
+    </article>`;
+  }
+
+  function initTechniques() {
+    const nav = $("#technique-nav");
+    const groupsRoot = $("#technique-groups");
+    if (!nav || !groupsRoot || !data.muscleGroups) return;
+
+    const planIds = new Set();
+    Object.values(data.people).forEach(person => {
+      Object.values(person.days).forEach(day => day.forEach(([id]) => planIds.add(id)));
+    });
+
+    nav.innerHTML = data.muscleGroups.map(g =>
+      `<a href="#group-${g.id}">${g.title}</a>`
+    ).join("");
+
+    groupsRoot.innerHTML = data.muscleGroups.map(group => {
+      const ids = Object.entries(data.exercises)
+        .filter(([, ex]) => ex.group === group.id)
+        .map(([id]) => id)
+        .sort((a, b) => {
+          const aPlan = planIds.has(a) ? 0 : 1;
+          const bPlan = planIds.has(b) ? 0 : 1;
+          if (aPlan !== bPlan) return aPlan - bPlan;
+          return data.exercises[a].name.localeCompare(data.exercises[b].name, "ru");
+        });
+      if (!ids.length) return "";
+      const cards = ids.map((id, i) => renderTechCard(id, data.exercises[id], i)).join("");
+      return `<details class="tech-group" id="group-${group.id}">
+        <summary class="tech-group-toggle">
+          <span class="tech-group-toggle-text">
+            <h2>${group.title}</h2>
+            <p class="muted tech-group-intro">${group.intro}</p>
+          </span>
+          <span class="tech-group-count">${ids.length}</span>
+          <span class="tech-group-chevron" aria-hidden="true"></span>
+        </summary>
+        <div class="tech-group-panel">
+          <div class="tech-grid">${cards}</div>
+        </div>
+      </details>`;
+    }).join("");
+
+    function openTechGroup(section) {
+      if (!section) return;
+      section.setAttribute("open", "");
+    }
+
+    function openGroupForHash() {
+      const hash = location.hash.slice(1);
+      if (!hash) return;
+      const target = document.getElementById(hash);
+      if (!target) return;
+      openTechGroup(target.closest(".tech-group") || (target.matches(".tech-group") ? target : null));
+      setTimeout(() => target.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    }
+
+    nav.addEventListener("click", event => {
+      const link = event.target.closest('a[href^="#group-"]');
+      if (!link) return;
+      event.preventDefault();
+      const section = document.getElementById(link.getAttribute("href").slice(1));
+      openTechGroup(section);
+      section?.scrollIntoView({ behavior: "smooth", block: "start" });
+      history.replaceState(null, "", link.getAttribute("href"));
+    });
+
     $("#tech-search")?.addEventListener("input", event => {
       const query = event.target.value.trim().toLowerCase();
-      $$(".tech-card", root).forEach(card => {
-        card.hidden = !card.dataset.search.includes(query);
+      $$(".tech-group", groupsRoot).forEach(section => {
+        let visible = 0;
+        $$(".tech-card", section).forEach(card => {
+          const match = !query || card.dataset.search.includes(query);
+          card.hidden = !match;
+          if (match) visible += 1;
+        });
+        section.hidden = query ? visible === 0 : false;
+        if (query && visible > 0) openTechGroup(section);
+        else if (!query) {
+          const hashEl = location.hash ? document.getElementById(location.hash.slice(1)) : null;
+          if (hashEl && section.contains(hashEl)) openTechGroup(section);
+          else section.removeAttribute("open");
+        }
       });
     });
-    if (location.hash) setTimeout(() => $(location.hash)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+    openGroupForHash();
+    window.addEventListener("hashchange", openGroupForHash);
   }
 
   initGuide();

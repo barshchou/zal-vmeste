@@ -166,9 +166,25 @@ window.GYM_DATA = {
       text: "Добавьте один подход к основному жиму и тяге. По желанию — болгарский сплит-присед. Неделя 12 облегчённая и оценка прогресса."
     }
   ],
+  muscleGroups: [
+    { id: "quads", title: "Квадрицепс", intro: "Присед, жим ногами и разгибание — основа объёма ног." },
+    { id: "glutes", title: "Ягодицы", intro: "Мост, зашагивания и тяги с акцентом на таз." },
+    { id: "hamstrings", title: "Задняя поверхность бедра", intro: "Шарнир в тазобедренном суставе и сгибание колена." },
+    { id: "chest", title: "Грудь", intro: "Жим и сведение — без боли в передней части плеча." },
+    { id: "back", title: "Спина", intro: "Горизонтальная и вертикальная тяга, широчайшие и верх спины." },
+    { id: "shoulders", title: "Плечи", intro: "Жим, средняя и задняя дельта — лёгкий вес, чистая форма." },
+    { id: "biceps", title: "Бицепс", intro: "Сгибание локтя без раскачки корпуса." },
+    { id: "triceps", title: "Трицепс", intro: "Разгибание локтя — локти стабильны." },
+    { id: "calves", title: "Икры", intro: "Полная амплитуда, медленное опускание пятки." },
+    { id: "abductors", title: "Отводящие", intro: "Средняя ягодичная и стабильность таза." },
+    { id: "core", title: "Кор", intro: "Стабилизация без перегруза поясницы." },
+    { id: "cardio", title: "Кардио", intro: "Спокойный темп после силовой — не HIIT." }
+  ],
   exercises: {
     "goblet-squat": {
       name: "Гоблет-присед",
+      group: "quads",
+      alternatives: ["leg-extension", "split-squat"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/glutes/kettlebell-goblet-squat.gif",
       target: "Квадрицепс, ягодицы, кор",
       setup: "Держите гантель вертикально у груди. Стопы чуть шире таза, носки слегка наружу.",
@@ -178,6 +194,8 @@ window.GYM_DATA = {
     },
     "leg-press": {
       name: "Жим ногами",
+      group: "quads",
+      alternatives: ["hack-squat", "leg-extension"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/glutes/sled-45-leg-press-back-pov.gif",
       target: "Квадрицепс и ягодицы",
       setup: "Поясница и таз прижаты к спинке. Стопы на ширине плеч в средней части платформы.",
@@ -187,6 +205,8 @@ window.GYM_DATA = {
     },
     "chest-press": {
       name: "Жим груди в тренажёре",
+      group: "chest",
+      alternatives: ["dumbbell-bench-press", "pec-deck"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/pectorals/lever-chest-press.gif",
       target: "Грудь, трицепс, передняя дельта",
       setup: "Рукояти на уровне середины груди. Лопатки слегка сведены, стопы устойчиво.",
@@ -196,6 +216,8 @@ window.GYM_DATA = {
     },
     "incline-press": {
       name: "Наклонный жим / Pec Deck",
+      group: "chest",
+      alternatives: ["pec-deck", "cable-fly"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/pectorals/lever-incline-chest-press.gif",
       gifNote: "На Pec Deck движение похоже: сведение локтей, а не жим вперёд.",
       target: "Грудь и передняя дельта",
@@ -206,6 +228,8 @@ window.GYM_DATA = {
     },
     "seated-row": {
       name: "Горизонтальная тяга сидя",
+      group: "back",
+      alternatives: ["cable-row", "t-bar-row"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/upper-back/lever-seated-row.gif",
       target: "Широчайшие, ромбовидные, бицепс",
       setup: "Грудь на упоре, если он есть. Спина нейтральна, плечи опущены.",
@@ -215,6 +239,8 @@ window.GYM_DATA = {
     },
     "lat-pulldown": {
       name: "Тяга верхнего блока",
+      group: "back",
+      alternatives: ["assisted-pull-up", "cable-row"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/lats/cable-bar-lateral-pulldown.gif",
       target: "Широчайшие и бицепс",
       setup: "Колени под валиками. Хват немного шире плеч, грудь приподнята.",
@@ -224,6 +250,8 @@ window.GYM_DATA = {
     },
     "shoulder-press": {
       name: "Жим плеч в тренажёре",
+      group: "shoulders",
+      alternatives: ["dumbbell-shoulder-press"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/delts/lever-shoulder-press.gif",
       target: "Дельты и трицепс",
       setup: "Сиденье так, чтобы рукояти были около подбородка. Спина прижата.",
@@ -233,6 +261,8 @@ window.GYM_DATA = {
     },
     "rdl": {
       name: "Румынская тяга с гантелями",
+      group: "hamstrings",
+      alternatives: ["lying-leg-curl", "hyperextension"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/glutes/dumbbell-romanian-deadlift.gif",
       target: "Задняя поверхность бедра, ягодицы, спина-стабилизатор",
       setup: "Гантели перед бёдрами, колени мягкие, стопы на ширине таза.",
@@ -242,6 +272,8 @@ window.GYM_DATA = {
     },
     "hip-thrust": {
       name: "Ягодичный мост / хип-траст",
+      group: "glutes",
+      alternatives: ["glute-bridge", "step-up"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/glutes/barbell-glute-bridge-two-legs-on-bench-male.gif",
       gifNote: "Можно без штанги и со скамьей — главное движение таза, а не поясницы.",
       target: "Ягодицы и задняя поверхность бедра",
@@ -252,6 +284,8 @@ window.GYM_DATA = {
     },
     "leg-curl": {
       name: "Сгибание ног сидя",
+      group: "hamstrings",
+      alternatives: ["lying-leg-curl"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/hamstrings/lever-seated-leg-curl.gif",
       target: "Задняя поверхность бедра",
       setup: "Колено совпадает с осью тренажёра, валик над пяткой, спина прижата.",
@@ -261,6 +295,8 @@ window.GYM_DATA = {
     },
     "triceps": {
       name: "Разгибание рук на блоке",
+      group: "triceps",
+      alternatives: ["triceps-vbar", "overhead-triceps"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/triceps/cable-pushdown.gif",
       target: "Трицепс",
       setup: "Локти у корпуса, корпус слегка наклонён, запястья нейтральны.",
@@ -270,6 +306,8 @@ window.GYM_DATA = {
     },
     "biceps": {
       name: "Сгибание рук",
+      group: "biceps",
+      alternatives: ["hammer-curl", "incline-curl"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/biceps/barbell-curl.gif",
       gifNote: "Подойдут и гантели — паттерн тот же.",
       target: "Бицепс и предплечье",
@@ -280,6 +318,8 @@ window.GYM_DATA = {
     },
     "face-pull": {
       name: "Face pull",
+      group: "shoulders",
+      alternatives: ["rear-delt-fly"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/delts/cable-rear-delt-row-with-rope.gif",
       gifNote: "Тяните канат к вискам, локти в стороны — не к груди.",
       target: "Задняя дельта и верх спины",
@@ -290,6 +330,8 @@ window.GYM_DATA = {
     },
     "lateral-raise": {
       name: "Подъём гантелей в стороны",
+      group: "shoulders",
+      alternatives: ["cable-lateral-raise"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/delts/dumbbell-lateral-raise.gif",
       target: "Средняя дельта",
       setup: "Лёгкие гантели, локти мягкие, корпус неподвижен.",
@@ -299,6 +341,8 @@ window.GYM_DATA = {
     },
     "calf-raise": {
       name: "Подъём на носки стоя",
+      group: "calves",
+      alternatives: ["seated-calf-raise", "leg-press-calf"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/calves/bodyweight-standing-calf-raise.gif",
       target: "Икроножные",
       setup: "Держитесь за опору, стопы параллельно, колени мягкие.",
@@ -308,6 +352,8 @@ window.GYM_DATA = {
     },
     "hip-abduction": {
       name: "Отведение бедра",
+      group: "abductors",
+      alternatives: ["side-bridge-abduction"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/abductors/lever-seated-hip-abduction.gif",
       target: "Средняя ягодичная",
       setup: "Сядьте ровно, колени в валиках, стопы устойчиво.",
@@ -317,6 +363,8 @@ window.GYM_DATA = {
     },
     "dead-bug": {
       name: "Dead bug",
+      group: "core",
+      alternatives: ["pallof-press", "side-plank"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/abs/dead-bug.gif",
       target: "Глубокие мышцы живота",
       setup: "Лёжа, бёдра вертикально, колени 90°, руки вверх. Поясница спокойно касается пола.",
@@ -326,6 +374,8 @@ window.GYM_DATA = {
     },
     "bird-dog": {
       name: "Bird-dog",
+      group: "core",
+      alternatives: ["side-plank"],
       gif: "https://commons.wikimedia.org/wiki/Special:FilePath/Girl_doing_bird_dog_yoga_pose.jpg?width=480",
       gifNote: "Статичное фото: вытяните противоположные руку и ногу, таз не качается.",
       target: "Кор, ягодицы, стабилизаторы спины",
@@ -336,6 +386,8 @@ window.GYM_DATA = {
     },
     "knee-plank": {
       name: "Планка с колен",
+      group: "core",
+      alternatives: ["side-plank", "pallof-press"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/abs/kneeling-plank-tap-shoulder-male.gif",
       gifNote: "Держите прямую линию от головы до колен, не прогибайтесь.",
       target: "Кор и плечевой пояс",
@@ -344,8 +396,303 @@ window.GYM_DATA = {
       errors: "Провисать в пояснице, поднимать таз, задерживать дыхание.",
       stop: "Боль в пояснице или плечах."
     },
+    "leg-extension": {
+      name: "Разгибание ног в тренажёре",
+      group: "quads",
+      altOf: "goblet-squat",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/quads/lever-leg-extension.gif",
+      target: "Квадрицепс",
+      setup: "Спина прижата, ось тренажёра совпадает с коленом, валик над щиколоткой.",
+      steps: ["Сядьте ровно, бёдра под валиком.", "Разогните ноги плавно с выдохом.", "Не запирайте колено рывком наверху.", "Опустите вес за 2–3 секунды, не отрывая таз."],
+      errors: "Отрывать таз, бросать плиты, сокращать амплитуду, заваливать колени внутрь.",
+      stop: "Острая боль в коленной чашечке или под коленом."
+    },
+    "hack-squat": {
+      name: "Хак-присед",
+      group: "quads",
+      altOf: "leg-press",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/glutes/barbell-hack-squat.gif",
+      gifNote: "В зале часто машина Смита или hack-squat — паттерн тот же: спина на опоре, колени по носкам.",
+      target: "Квадрицепс и ягодицы",
+      setup: "Плечи под валиками, спина на спинке, стопы на ширине плеч чуть впереди таза.",
+      steps: ["Снимите упоры, колени слегка согнуты.", "Опускайтесь контролируемо, колени по носкам.", "Остановитесь до отрыва поясницы.", "Выжмите себя вверх всей стопой."],
+      errors: "Колени заваливаются внутрь, пятки отрываются, блокировать колени, отбивать внизу.",
+      stop: "Боль в колене или пояснице на любой глубине."
+    },
+    "split-squat": {
+      name: "Сплит-присед / болгарский",
+      group: "quads",
+      altOf: "goblet-squat",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/quads/dumbbell-single-leg-split-squat.gif",
+      gifNote: "Задняя нога на скамье — болгарский вариант. Начните без веса.",
+      target: "Квадрицепс, ягодицы, баланс",
+      setup: "Широкий шаг вперёд или задняя нога на скамье. Корпус вертикален, гантели по бокам.",
+      steps: ["Опуститесь, пока переднее бедро почти параллельно полу.", "Колено передней ноги не заваливается внутрь.", "Толкайтесь передней ногой вверх.", "Смените сторону после подхода."],
+      errors: "Короткий шаг, наклон вперёд с округлением спины, опора на заднюю ногу.",
+      stop: "Боль в колене или паху; уменьшите глубину или уберите скамью."
+    },
+    "glute-bridge": {
+      name: "Ягодичный мост на полу",
+      group: "glutes",
+      altOf: "hip-thrust",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/glutes/barbell-glute-bridge.gif",
+      gifNote: "Без штанги и скамьи — проще для старта и замены в загруженный зал.",
+      target: "Ягодицы",
+      setup: "Лёжа, стопы под коленями, руки вдоль тела. Поясница нейтральна.",
+      steps: ["Слегка подкрутите таз.", "Поднимите таз за счёт ягодиц, не поясницы.", "Задержитесь на секунду вверху.", "Опуститесь медленно, не переразгибаясь."],
+      errors: "Толкаться носками, прогибать поясницу, быстрые рывки.",
+      stop: "Боль в пояснице — уменьшите амплитуду или вернитесь к hip-thrust со скамьей."
+    },
+    "step-up": {
+      name: "Зашагивания на скамью",
+      group: "glutes",
+      altOf: "hip-thrust",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/glutes/dumbbell-step-up.gif",
+      target: "Ягодицы, квадрицепс",
+      setup: "Невысокая устойчивая скамья. Гантели по бокам, вся стопа на платформе.",
+      steps: ["Поставьте всю стопу на скамью.", "Толкнитесь рабочей ногой, не отталкиваясь задней.", "Встаньте наверх без рывка.", "Опуститесь назад под контролем и смените ногу."],
+      errors: "Отталкиваться задней ногой, половина стопы на краю, слишком высокая скамья.",
+      stop: "Боль в колене или потеря равновесия — ниже скамья или без веса."
+    },
+    "lying-leg-curl": {
+      name: "Сгибание ног лёжа",
+      group: "hamstrings",
+      altOf: "leg-curl",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/hamstrings/lever-lying-leg-curl.gif",
+      target: "Задняя поверхность бедра",
+      setup: "Лёжа лицом вниз, валик над пятками, бёдра прижаты к скамье.",
+      steps: ["Согните ноги к ягодицам плавно.", "Задержитесь на секунду в сокращении.", "Опустите вес медленно.", "Не отрывайте таз от скамьи."],
+      errors: "Отрыв таза, рывки, неполная амплитуда.",
+      stop: "Острая боль под коленом или в пояснице."
+    },
+    "hyperextension": {
+      name: "Гиперэкстензия",
+      group: "hamstrings",
+      altOf: "rdl",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/spine/hyperextension-on-bench.gif",
+      target: "Задняя поверхность бедра, ягодицы, разгибатели спины",
+      setup: "Бёдра на валике, стопы зафиксированы, руки на груди или за головой.",
+      steps: ["Нейтральная спина, лёгкий наклон вперёд за счёт таза.", "Поднимитесь до прямой линии корпуса.", "Сожмите ягодицы, не переразгибайте поясницу.", "Опуститесь контролируемо."],
+      errors: "Резкий прогиб в пояснице наверху, слишком глубокий наклон, рывок.",
+      stop: "Боль в пояснице — остановитесь и уменьшите амплитуду."
+    },
+    "dumbbell-bench-press": {
+      name: "Жим гантелей лёжа",
+      group: "chest",
+      altOf: "chest-press",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/pectorals/dumbbell-bench-press.gif",
+      target: "Грудь, трицепс, передняя дельта",
+      setup: "Лопатки слегка сведены, стопы на полу. Гантели на уровне груди.",
+      steps: ["Выжмите гантели вверх с выдохом.", "Локти под углом ~45°, не строго в стороны.", "Не сталкивайте гантели слишком громко наверху.", "Опустите до комфортного растяжения груди."],
+      errors: "Разводить локти на 90°, отрывать таз, бросать вес.",
+      stop: "Боль в плече или груди."
+    },
+    "pec-deck": {
+      name: "Pec Deck / сведение в тренажёре",
+      group: "chest",
+      altOf: "incline-press",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/pectorals/lever-seated-fly.gif",
+      target: "Грудь",
+      setup: "Спина прижата, локти на уровне груди, ручки на комфортной высоте.",
+      steps: ["Сведите локти перед собой с выдохом.", "Задержитесь на секунду без удара рукояток.", "Разведите руки медленно.", "Плечи опущены, не тяните шеей."],
+      errors: "Слишком большой вес, рывок, вывод плеч вперёд.",
+      stop: "Щелчок или боль в передней части плеча."
+    },
+    "cable-fly": {
+      name: "Сведение в кроссовере",
+      group: "chest",
+      altOf: "incline-press",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/pectorals/cable-standing-fly.gif",
+      gifNote: "Можно стоя или на наклонной скамье — главное сведение, а не жим.",
+      target: "Грудь",
+      setup: "Блоки на уровне груди или чуть выше, шаг вперёд, лёгкий наклон корпуса.",
+      steps: ["Руки слегка согнуты в локтях.", "Сведите кисти перед грудью.", "Выдох в усилии.", "Верните руки под контролем, не растягивая плечо."],
+      errors: "Прямые локти, раскачивание корпусом, слишком тяжёлый блок.",
+      stop: "Боль в плечевом суставе."
+    },
+    "cable-row": {
+      name: "Горизонтальная тяга на блоке",
+      group: "back",
+      altOf: "seated-row",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/upper-back/cable-seated-row.gif",
+      target: "Широчайшие, ромбовидные, бицепс",
+      setup: "Сидя, стопы на платформе, спина нейтральна, рукоять на уровне пупка.",
+      steps: ["Начните движением лопаток.", "Тяните к нижним рёбрам.", "Локти близко к корпусу.", "Верните рукоять медленно, не теряя осанки."],
+      errors: "Раскачивание, круглая спина, тянуть только руками.",
+      stop: "Боль в пояснице или плече."
+    },
+    "t-bar-row": {
+      name: "T-bar тяга",
+      group: "back",
+      altOf: "seated-row",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/upper-back/lever-t-bar-row.gif",
+      target: "Середина спины, широчайшие",
+      setup: "Грудь на упоре или наклон с нейтральной спиной. Хват удобный, колени мягкие.",
+      steps: ["Тяните локти назад и вверх.", "Сведите лопатки в верхней точке.", "Опустите вес под контролем.", "Не выгибайте поясницу."],
+      errors: "Рывок, круглая спина, слишком большой вес.",
+      stop: "Боль в пояснице."
+    },
+    "assisted-pull-up": {
+      name: "Подтягивания с гравитроном",
+      group: "back",
+      altOf: "lat-pulldown",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/lats/assisted-pull-up.gif",
+      target: "Широчайшие, бицепс",
+      setup: "Колени на платформе, хват чуть шире плеч, грудь вверх.",
+      steps: ["Опустите лопатки перед стартом.", "Тяните грудь к перекладине.", "Локти вниз, подбородок над перекладиной.", "Опуститесь медленно до полного выпрямления."],
+      errors: "Рывок, подъём плеч к ушам, неполная амплитуда вниз.",
+      stop: "Боль в плече или локте."
+    },
+    "dumbbell-shoulder-press": {
+      name: "Жим гантелей сидя",
+      group: "shoulders",
+      altOf: "shoulder-press",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/delts/dumbbell-seated-shoulder-press.gif",
+      target: "Дельты и трицепс",
+      setup: "Спина прижата к скамье, гантели на уровне ушей, ладони вперёд.",
+      steps: ["Выжмите вверх, гантели не сталкиваются резко.", "Локти чуть впереди корпуса.", "Опустите до уровня ушей или чуть ниже.", "Живот напряжён, поясница не прогибается."],
+      errors: "Сильный прогиб в пояснице, рывок, слишком глубокое опускание.",
+      stop: "Боль или защемление в плече."
+    },
+    "cable-lateral-raise": {
+      name: "Подъём на блоке в стороны",
+      group: "shoulders",
+      altOf: "lateral-raise",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/delts/cable-lateral-raise.gif",
+      target: "Средняя дельта",
+      setup: "Блок сзади или сбоку, рукоять в дальней руке, корпус стабилен.",
+      steps: ["Поднимайте локоть в сторону до уровня плеча.", "Кисть — продолжение предплечья.", "Задержитесь на секунду.", "Опустите медленно."],
+      errors: "Мах корпусом, подъём плеча к уху, тяжёлый блок.",
+      stop: "Защемление в плече."
+    },
+    "rear-delt-fly": {
+      name: "Разведение на заднюю дельту",
+      group: "shoulders",
+      altOf: "face-pull",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/delts/dumbbell-rear-fly.gif",
+      gifNote: "В тренажёре — lever-seated-reverse-fly; паттерн тот же.",
+      target: "Задняя дельта",
+      setup: "Наклон вперёд с прямой спиной или тренажёр с упором груди. Лёгкий вес.",
+      steps: ["Разведите локти в стороны и немного назад.", "Сведите лопатки без прогиба.", "Задержитесь в верхней точке.", "Верните вес под контролем."],
+      errors: "Слишком тяжёлые гантели, движение только кистями, округление спины.",
+      stop: "Боль в плече или шее."
+    },
+    "hammer-curl": {
+      name: "Молотковое сгибание",
+      group: "biceps",
+      altOf: "biceps",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/biceps/dumbbell-hammer-curl.gif",
+      target: "Бицепс и предплечье",
+      setup: "Гантели по бокам, ладони друг к другу, локти у корпуса.",
+      steps: ["Согните локти, не двигая плечо.", "Поднимите до уровня плеч.", "Опустите за 2–3 секунды.", "Корпус неподвижен."],
+      errors: "Раскачка, локти вперёд, слишком тяжёлый вес.",
+      stop: "Боль в локте."
+    },
+    "incline-curl": {
+      name: "Сгибание на наклонной скамье",
+      group: "biceps",
+      altOf: "biceps",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/biceps/dumbbell-incline-curl-v-2.gif",
+      target: "Бицепс (удлинённая позиция)",
+      setup: "Скамья 45–60°, спина прижата, руки висят вертикально.",
+      steps: ["Согните локти, не отрывая плеч от скамьи.", "Поднимите гантели без рывка.", "Задержитесь на секунду.", "Опустите полностью под контролем."],
+      errors: "Отрыв плеч, рывок, слишком большой угол скамьи для старта.",
+      stop: "Боль в локте или передней части плеча."
+    },
+    "triceps-vbar": {
+      name: "Разгибание на блоке (V-рукоять)",
+      group: "triceps",
+      altOf: "triceps",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/triceps/cable-triceps-pushdown-v-bar.gif",
+      target: "Трицепс",
+      setup: "Локти прижаты к корпусу, V-рукоять нейтральным хватом.",
+      steps: ["Разогните руки вниз с выдохом.", "В нижней точке напрягите трицепс.", "Поднимите предплечья, локти не двигаются.", "Без раскачки корпуса."],
+      errors: "Локти уходят вперёд, раскачивание, неполная амплитуда.",
+      stop: "Боль в локте."
+    },
+    "overhead-triceps": {
+      name: "Разгибание из-за головы",
+      group: "triceps",
+      altOf: "triceps",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/triceps/cable-high-pulley-overhead-tricep-extension.gif",
+      gifNote: "Подойдёт и гантель или канат на блоке — локти смотрят вперёд.",
+      target: "Трицепс (длинная головка)",
+      setup: "Локти у ушей или чуть впереди, спина нейтральна.",
+      steps: ["Согните и разогните локти, не разводя их в стороны.", "Выдох в разгибании.", "Опускайте вес только до комфортного растяжения.", "Корпус не прогибайте."],
+      errors: "Локти разъезжаются, прогиб поясницы, слишком тяжёлый вес.",
+      stop: "Боль в локте или плече."
+    },
+    "seated-calf-raise": {
+      name: "Подъём на носки сидя",
+      group: "calves",
+      altOf: "calf-raise",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/calves/lever-seated-calf-raise.gif",
+      target: "Икроножные (камбаловидная акцент)",
+      setup: "Колени под валиком, стопы на платформе, спина к спинке.",
+      steps: ["Поднимитесь на носки за 1–2 секунды.", "Задержитесь наверху.", "Опустите пятки ниже уровня платформы.", "Движение только в голеностопе."],
+      errors: "Рывки, неполная амплитуда, слишком большой вес.",
+      stop: "Боль в ахилле."
+    },
+    "leg-press-calf": {
+      name: "Икры в жиме ногами",
+      group: "calves",
+      altOf: "calf-raise",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/calves/sled-calf-press-on-leg-press.gif",
+      target: "Икроножные",
+      setup: "Только передняя часть стоп на нижнем краю платформы, ноги почти прямые.",
+      steps: ["Опустите пятки максимально безопасно.", "Выжмите платформу носками.", "Не сгибайте колени в присед.", "Контролируйте вес — начните легко."],
+      errors: "Сгибать колени, ставить всю стопу, слишком тяжёлая платформа.",
+      stop: "Боль в ахилле или колене."
+    },
+    "side-bridge-abduction": {
+      name: "Боковая планка с отведением",
+      group: "abductors",
+      altOf: "hip-abduction",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/abductors/side-bridge-hip-abduction.gif",
+      target: "Средняя ягодичная, кор",
+      setup: "Боковая планка на локте, ноги вместе или одна перед другой для лёгкого варианта.",
+      steps: ["Держите таз поднятым.", "Поднимите верхнюю ногу без вращения таза.", "Опустите под контролем.", "Смените сторону."],
+      errors: "Провисание таза, поворот корпуса, слишком высоко поднимать ногу.",
+      stop: "Боль в паху или пояснице."
+    },
+    "side-plank": {
+      name: "Боковая планка",
+      group: "core",
+      altOf: "knee-plank",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/abs/side-bridge-v-2.gif",
+      target: "Косые мышцы, стабилизаторы",
+      setup: "Локоть под плечом, ноги вместе или нижнее колено согнуто для облегчения.",
+      steps: ["Поднимите таз — прямая линия.", "Дышите спокойно.", "Держите плечи и таз в одной плоскости.", "Завершите до провисания."],
+      errors: "Провисание, завал вперёд или назад, задержка дыхания.",
+      stop: "Боль в плече или пояснице."
+    },
+    "pallof-press": {
+      name: "Pallof press",
+      group: "core",
+      altOf: "dead-bug",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/abs/band-horizontal-pallof-press.gif",
+      gifNote: "На блоке — тот же принцип: выжимание перед грудью против вращения.",
+      target: "Кор, антиротация",
+      setup: "Блок на уровне груди, стойте боком к стойке, рукоять у груди.",
+      steps: ["Выжмите рукоять перед собой с выдохом.", "Удержите 1–2 секунды, не поворачиваясь.", "Верните к груди под контролем.", "Смените сторону."],
+      errors: "Поворот корпуса, слишком тяжёлый блок, задержка дыхания.",
+      stop: "Боль в пояснице."
+    },
+    "elliptical": {
+      name: "Эллипс / кросс-тренер",
+      group: "cardio",
+      altOf: "cardio",
+      gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/cardio/walk-elliptical-cross-trainer.gif",
+      target: "Сердце, лёгкое восстановление",
+      setup: "Спокойный темп, без наклона и сопротивления на максимум.",
+      steps: ["Разминка 1–2 минуты очень легко.", "Темп разговорный 8–10 минут.", "Руки работают естественно, не сжимайте плечи.", "Плавно снизьте темп в конце."],
+      errors: "Слишком высокое сопротивление, спринты, соревнование по калориям.",
+      stop: "Боль в груди, головокружение, необычная одышка."
+    },
     "cardio": {
       name: "Спокойное кардио",
+      group: "cardio",
+      alternatives: ["elliptical"],
       gif: "https://cdn.jsdelivr.net/gh/JahelCuadrado/ExerciseGymGifsDB@v1.1.0/cardio/stationary-bike-run-v-3.gif",
       gifNote: "Подойдут велосипед или эллипс — темп разговорный.",
       target: "Сердце, восстановление дыхания",
