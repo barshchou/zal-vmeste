@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0d1117">
+  <title>Тренировка для неё — Зал вместе</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body data-person="her">
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="index.html">зал<span>вместе</span></a>
+      <nav class="toplinks"><a href="him.html">План мужа</a><a href="technique.html">Техника</a><a href="advice.html">Советы</a></nav>
+    </header>
+    <section class="guide-head">
+      <div class="eyebrow">Персональный план · 2 раза в неделю</div>
+      <h1 id="person-title">Для неё</h1>
+      <p class="lead" id="person-subtitle"></p>
+      <p class="muted" id="person-note"></p>
+      <div class="tags"><span class="tag">65–80 минут</span><span class="tag">Без отказа</span><span class="tag">Спокойный темп</span></div>
+    </section>
+    <section>
+      <label for="phase-select" class="eyebrow">Текущая фаза</label><br>
+      <select class="phase-select" id="phase-select"></select>
+      <div class="phase-card" id="phase-info"></div>
+    </section>
+    <section class="section">
+      <div class="switcher" aria-label="Выбор тренировки">
+        <button type="button" data-day="A">Тренировка A</button>
+        <button type="button" data-day="B">Тренировка B</button>
+      </div>
+      <div class="notice">Перед первым упражнением: 5 минут лёгкого велосипеда/эллипса и 1–2 разминочных подхода. Если тревога усилилась — сядьте, сделайте несколько спокойных выдохов и продолжайте только когда комфортно.</div>
+      <div class="workout-list" id="workout-app"></div>
+      <button class="button" id="reset-session" type="button">Очистить записи дня</button>
+    </section>
+    <aside class="timer" aria-label="Таймер отдыха">
+      <span class="timer-display" id="timer-display">0:00</span>
+      <button data-seconds="60">1:00</button>
+      <button data-seconds="90">1:30</button>
+      <button data-seconds="120">2:00</button>
+      <button id="timer-stop" aria-label="Остановить">×</button>
+    </aside>
+    <section class="section">
+      <h2>Прогресс без гонки</h2>
+      <div class="card">
+        <p>Сначала доведите каждый подход до верхней границы повторений с чистой техникой. Потом добавьте самый маленький шаг веса. Не обязательно прогрессировать каждую тренировку.</p>
+        <p>Антидепрессанты могут влиять на пульс, потоотделение, сон и аппетит. Не меняйте приём самостоятельно; необычные симптомы обсуждайте с лечащим врачом.</p>
+      </div>
+    </section>
+    <footer class="footer">Острая боль, предобморочное состояние или необычная одышка — остановиться. Этот план не заменяет врача.</footer>
+  </main>
+  <nav class="bottom-nav">
+    <a href="index.html"><b>⌂</b>Главная</a><a href="her.html"><b>Б</b>Сегодня</a><a href="technique.html"><b>?</b>Техника</a><a href="advice.html"><b>i</b>Советы</a>
+  </nav>
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
