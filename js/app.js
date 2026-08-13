@@ -18,6 +18,16 @@
     return `<svg viewBox="0 0 120 100" aria-hidden="true">${variants[index % variants.length]}</svg>`;
   }
 
+  function exerciseMedia(id, className) {
+    const ex = data.exercises[id];
+    if (!ex?.gif) return `<div class="${className} fallback">${exerciseSvg(0)}</div>`;
+    const note = ex.gifNote ? `<figcaption class="media-note">${ex.gifNote}</figcaption>` : "";
+    return `<figure class="${className}">
+      <img src="${ex.gif}" alt="Как выполнять: ${ex.name}" loading="lazy" decoding="async">
+      ${note}
+    </figure>`;
+  }
+
   function initGuide() {
     const root = $("#workout-app");
     if (!root) return;
@@ -50,10 +60,11 @@
               `<input aria-label="Подход ${i + 1}" data-field="set${i + 1}" value="${row[`set${i + 1}`] || ""}" placeholder="${i + 1}: кг × повт">`
             ).join("");
         return `<article class="exercise-row ${row.done ? "done" : ""}" data-id="${id}">
+          ${exerciseMedia(id, "exercise-thumb-wrap")}
           <input class="check" type="checkbox" aria-label="Выполнено" ${row.done ? "checked" : ""}>
-          <div>
+          <div class="exercise-copy">
             <div class="exercise-name">${index + 1}. ${name}</div>
-            <a class="exercise-technique" href="technique.html#${id}">Техника упражнения →</a>
+            <a class="exercise-technique" href="technique.html#${id}">Техника и GIF →</a>
           </div>
           <div class="exercise-meta">${sets} × ${reps}</div>
           <div class="sets-log">${fields}</div>
@@ -86,7 +97,7 @@
       storage.set(`zal-phase-${personId}`, phase);
       renderPhase();
     });
-    $("#reset-session").addEventListener("click", () => {
+    $("#reset-session")?.addEventListener("click", () => {
       if (confirm(`Очистить записи тренировки ${day}?`)) {
         localStorage.removeItem(`zal-log-${personId}-${day}`);
         render();
@@ -94,6 +105,57 @@
     });
     renderPhase();
     render();
+  }
+
+  function initProgression() {
+    const root = $("#progression-app");
+    if (!root) return;
+    const p = data.progression;
+    root.innerHTML = `
+      <p class="lead">${p.intro}</p>
+      <div class="progression-grid">
+        <article class="card signal-up"><h3>↑ Повышать вес</h3><ul>${p.increase.map(i => `<li>${i}</li>`).join("")}</ul></article>
+        <article class="card signal-hold"><h3>= Оставить вес</h3><ul>${p.hold.map(i => `<li>${i}</li>`).join("")}</ul></article>
+        <article class="card signal-down"><h3>↓ Понизить вес</h3><ul>${p.decrease.map(i => `<li>${i}</li>`).join("")}</ul></article>
+      </div>
+      <div class="card" style="margin-top:16px"><p><strong>Важно:</strong> ${p.timing}</p></div>
+      <div class="examples-grid">${p.examples.map(ex => `<div class="example-chip"><span class="eyebrow">${ex.label}</span><p>${ex.text}</p></div>`).join("")}</div>`;
+  }
+
+  function initNutrition() {
+    const root = $("#nutrition-app");
+    if (!root) return;
+    const personId = document.body.dataset.person;
+    const n = data.nutrition[personId];
+    if (!n) return;
+    const macroTotal = n.macros.protein * 4 + n.macros.fat * 9 + n.macros.carbs * 4;
+    root.innerHTML = `
+      <p class="muted">${n.profile}</p>
+      <p class="lead">${n.goal}</p>
+      <div class="macro-hero card">
+        <div><span class="macro-num">${n.caloriesRange || n.calories}</span><span class="macro-label">ккал / день</span></div>
+        <div class="macro-bars">
+          <div class="macro-row"><span>Белки</span><strong>${n.macros.protein} г</strong><span>${Math.round(n.macros.protein * 4 / macroTotal * 100)}%</span></div>
+          <div class="macro-row"><span>Жиры</span><strong>${n.macros.fat} г</strong><span>${Math.round(n.macros.fat * 9 / macroTotal * 100)}%</span></div>
+          <div class="macro-row"><span>Углеводы</span><strong>${n.macros.carbs} г</strong><span>${Math.round(n.macros.carbs * 4 / macroTotal * 100)}%</span></div>
+        </div>
+      </div>
+      <p class="muted">${n.macroDetail}</p>
+      <p class="muted">${n.caloriesNote}</p>
+      <p class="muted">${n.water}</p>
+      <div class="notice">${n.trainingDay}</div>
+      ${n.sampleDays.map(day => `
+        <section class="menu-day">
+          <h2>${day.title}</h2>
+          <div class="meal-list">${day.meals.map(meal => `
+            <article class="meal-card">
+              <div class="meal-head"><span class="eyebrow">${meal.time}</span><h3>${meal.name}</h3></div>
+              <p>${meal.food}</p>
+              <p class="meal-macros">≈ ${meal.kcal} ккал · Б ${meal.p} · Ж ${meal.f} · У ${meal.c}</p>
+            </article>`).join("")}
+          </div>
+        </section>`).join("")}
+      <p class="muted footer-note">Цифры округлены. Это ориентир, не медицинское назначение. При хронических заболеваниях согласуйте рацион с врачом.</p>`;
   }
 
   function initTimer() {
@@ -132,12 +194,12 @@
     if (!root) return;
     const entries = Object.entries(data.exercises);
     root.innerHTML = entries.map(([id, ex], i) => `<article class="card tech-card" id="${id}" data-search="${(ex.name + " " + ex.target).toLowerCase()}">
-      <div class="tech-visual">${exerciseSvg(i)}</div>
+      ${ex.gif ? exerciseMedia(id, "tech-visual media") : `<div class="tech-visual">${exerciseSvg(i)}</div>`}
       <div class="tech-body">
         <span class="eyebrow">${ex.target}</span>
         <h2>${ex.name}</h2>
         <p>${ex.setup}</p>
-        <details>
+        <details open>
           <summary>Пошаговая техника</summary>
           <ol>${ex.steps.map(step => `<li>${step}</li>`).join("")}</ol>
           <p><strong>Частые ошибки:</strong> ${ex.errors}</p>
@@ -145,16 +207,18 @@
         </details>
       </div>
     </article>`).join("");
-    $("#tech-search").addEventListener("input", event => {
+    $("#tech-search")?.addEventListener("input", event => {
       const query = event.target.value.trim().toLowerCase();
       $$(".tech-card", root).forEach(card => {
         card.hidden = !card.dataset.search.includes(query);
       });
     });
-    if (location.hash) setTimeout(() => $(location.hash)?.scrollIntoView(), 50);
+    if (location.hash) setTimeout(() => $(location.hash)?.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
   }
 
   initGuide();
+  initProgression();
+  initNutrition();
   initTimer();
   initTechniques();
 })();
