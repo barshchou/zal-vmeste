@@ -23,6 +23,11 @@ window.ZalSync = (function () {
     return () => listeners.delete(fn);
   }
 
+  function normalizeUrl(url) {
+    if (!url) return "";
+    return url.trim().replace(/\/rest\/v1\/?$/i, "").replace(/\/+$/, "");
+  }
+
   async function init() {
     if (!configured()) {
       setStatus("disabled", "Добавьте ключи в js/config.js");
@@ -32,7 +37,11 @@ window.ZalSync = (function () {
       setStatus("error", "Не загружена библиотека Supabase");
       return false;
     }
-    client = window.supabase.createClient(cfg().supabaseUrl, cfg().supabaseAnonKey, {
+    const baseUrl = normalizeUrl(cfg().supabaseUrl);
+    if (baseUrl !== cfg().supabaseUrl.trim()) {
+      console.warn("Supabase URL исправлен: уберите /rest/v1 из config.js");
+    }
+    client = window.supabase.createClient(baseUrl, cfg().supabaseAnonKey.trim(), {
       auth: {
         persistSession: true,
         autoRefreshToken: true,

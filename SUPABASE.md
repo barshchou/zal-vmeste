@@ -73,5 +73,6 @@ Supabase Free: достаточно для двух человек и двух �
 |--------|----------------|
 | «Добавьте ключи в config.js» | Заполнены `supabaseUrl` и `supabaseAnonKey` |
 | Invalid login credentials | Email/пароль в Supabase → Users |
+| «Invalid path» / PGRST125 | В `supabaseUrl` **не должно быть** `/rest/v1`. Только `https://ID.supabase.co`. Очистите кэш сайта (Ctrl+Shift+R). |
 | RLS / permission denied | SQL из `schema.sql` выполнен полностью |
 | Не синхронится между телефонами | На обоих устройствах выполнен вход тем же пользователем |
