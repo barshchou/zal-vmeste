@@ -26,6 +26,7 @@
       <select class="phase-select" id="phase-select"></select>
       <div class="phase-card" id="phase-info"></div>
     </section>
+    <section class="section" id="sync-panel" aria-live="polite"></section>
     <section class="section">
       <div class="switcher" aria-label="Выбор тренировки">
         <button type="button" data-day="A">Тренировка A</button>
@@ -51,7 +52,10 @@
   <nav class="bottom-nav">
     <a href="index.html"><b>⌂</b>Главная</a><a href="him.html"><b>А</b>Сегодня</a><a href="technique.html"><b>?</b>Техника</a><a href="advice.html"><b>i</b>Советы</a>
   </nav>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+  <script src="js/config.js"></script>
   <script src="js/data.js"></script>
+  <script src="js/sync.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

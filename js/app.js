@@ -28,6 +28,56 @@
     </figure>`;
   }
 
+  function initSyncPanel(personId, onReload) {
+    const root = $("#sync-panel");
+    if (!root || !window.ZalSync) return;
+
+    function renderPanel(state) {
+      const labels = {
+        disabled: "Облако не настроено",
+        login: "Войдите для синхронизации",
+        ok: "Облако подключено",
+        syncing: "Синхронизация…",
+        error: "Ошибка синхронизации"
+      };
+      const loggedIn = state.status === "ok" || state.status === "syncing";
+      root.innerHTML = `
+        <div class="sync-bar ${state.status}">
+          <div class="sync-status"><strong>${labels[state.status] || state.status}</strong>
+            ${state.detail ? `<span class="muted"> · ${state.detail}</span>` : ""}</div>
+          ${state.status === "disabled" ? `<p class="muted sync-hint">Настройка: откройте файл <code>SUPABASE.md</code> в папке проекта.</p>` : ""}
+          ${!loggedIn && state.status !== "disabled" ? `
+            <form class="sync-form" id="sync-login-form">
+              <input type="email" name="email" placeholder="Email" required autocomplete="username">
+              <input type="password" name="password" placeholder="Пароль" required autocomplete="current-password">
+              <button class="button primary" type="submit">Войти</button>
+            </form>` : ""}
+          ${loggedIn ? `<div class="sync-actions">
+            <button type="button" class="button" id="sync-pull">Загрузить из облака</button>
+            <button type="button" class="button" id="sync-logout">Выйти</button>
+          </div>` : ""}
+        </div>`;
+
+      $("#sync-login-form")?.addEventListener("submit", async event => {
+        event.preventDefault();
+        const fd = new FormData(event.target);
+        const result = await ZalSync.signIn(fd.get("email"), fd.get("password"));
+        if (result.ok) {
+          await ZalSync.pullPerson(personId);
+          onReload();
+        }
+      });
+      $("#sync-pull")?.addEventListener("click", async () => {
+        await ZalSync.pullPerson(personId);
+        onReload();
+      });
+      $("#sync-logout")?.addEventListener("click", () => ZalSync.signOut());
+    }
+
+    ZalSync.onStatus(renderPanel);
+    ZalSync.init();
+  }
+
   function initGuide() {
     const root = $("#workout-app");
     if (!root) return;
@@ -35,12 +85,29 @@
     const person = data.people[personId];
     let day = storage.get(`zal-day-${personId}`, "A");
     let phase = storage.get(`zal-phase-${personId}`, 0);
+
+    function persistLog(sessionKey, log) {
+      storage.set(sessionKey, log);
+      const workoutDay = sessionKey.replace(`zal-log-${personId}-`, "");
+      ZalSync.schedulePush?.(personId, workoutDay, log);
+    }
+
+    function reloadFromStorage() {
+      day = storage.get(`zal-day-${personId}`, "A");
+      phase = storage.get(`zal-phase-${personId}`, 0);
+      if (phaseSelect) phaseSelect.value = phase;
+      renderPhase();
+      render();
+    }
+
     $("#person-title").textContent = person.name;
     $("#person-subtitle").textContent = person.subtitle;
     $("#person-note").textContent = person.note;
     const phaseSelect = $("#phase-select");
     phaseSelect.innerHTML = data.phases.map((p, i) => `<option value="${i}">${p.title}</option>`).join("");
     phaseSelect.value = phase;
+
+    initSyncPanel(personId, reloadFromStorage);
 
     function renderPhase() {
       const selected = data.phases[phase];
@@ -76,13 +143,13 @@
         $(".check", row).addEventListener("change", event => {
           const current = storage.get(sessionKey, {});
           current[id] = { ...(current[id] || {}), done: event.target.checked };
-          storage.set(sessionKey, current);
+          persistLog(sessionKey, current);
           row.classList.toggle("done", event.target.checked);
         });
         $$("input[data-field]", row).forEach(input => input.addEventListener("change", () => {
           const current = storage.get(sessionKey, {});
           current[id] = { ...(current[id] || {}), [input.dataset.field]: input.value };
-          storage.set(sessionKey, current);
+          persistLog(sessionKey, current);
         }));
       });
     }
@@ -90,16 +157,22 @@
     $$(".switcher button").forEach(btn => btn.addEventListener("click", () => {
       day = btn.dataset.day;
       storage.set(`zal-day-${personId}`, day);
+      ZalSync.pushPrefs?.(personId, phase, day);
       render();
     }));
     phaseSelect.addEventListener("change", () => {
       phase = Number(phaseSelect.value);
       storage.set(`zal-phase-${personId}`, phase);
+      ZalSync.pushPrefs?.(personId, phase, day);
       renderPhase();
     });
-    $("#reset-session")?.addEventListener("click", () => {
+    $("#reset-session")?.addEventListener("click", async () => {
       if (confirm(`Очистить записи тренировки ${day}?`)) {
-        localStorage.removeItem(`zal-log-${personId}-${day}`);
+        if (ZalSync.isLoggedIn?.()) await ZalSync.clearSession(personId, day);
+        else {
+          localStorage.removeItem(`zal-log-${personId}-${day}`);
+          localStorage.removeItem(`zal-log-ts-${personId}-${day}`);
+        }
         render();
       }
     });

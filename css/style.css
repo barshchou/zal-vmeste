@@ -129,6 +129,16 @@ h3 { margin: 0 0 8px; }
 .meal-head h3 { margin: 0; }
 .meal-macros { color: var(--accent); font-size: .84rem; margin-top: 8px; }
 .footer-note { margin-top: 24px; font-size: .85rem; }
+
+.sync-bar { padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); }
+.sync-bar.ok { border-color: rgba(116,224,181,.35); }
+.sync-bar.error { border-color: rgba(255,138,138,.4); }
+.sync-bar.syncing { border-color: rgba(126,182,255,.35); }
+.sync-status { margin-bottom: 10px; }
+.sync-hint { font-size: .88rem; margin: 8px 0 0; }
+.sync-form { display: grid; gap: 8px; max-width: 360px; }
+.sync-form input { padding: 11px 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel-2); color: var(--text); }
+.sync-actions { display: flex; gap: 8px; flex-wrap: wrap; }
 .timer {
   position: sticky; bottom: 76px; z-index: 5; display: flex; gap: 10px; align-items: center; justify-content: center;
   padding: 12px; margin: 22px auto; max-width: 500px; background: rgba(22,27,34,.94); border: 1px solid var(--line); border-radius: 999px; backdrop-filter: blur(10px);
